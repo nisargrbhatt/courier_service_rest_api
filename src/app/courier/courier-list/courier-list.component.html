@@ -1,0 +1,39 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" *ngIf="orders.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let order of orders">
+    <mat-expansion-panel-header>
+      {{ order.item_name }}
+    </mat-expansion-panel-header>
+    <p>Item Weight: {{ order.item_weight }}</p>
+    <p>Pickup Location: {{ order.pickup_location }}</p>
+    <p>Drop Location: {{ order.drop_location }}</p>
+    <p *ngIf="order.delivery_type === 1">Deliver Type: Normal Delivery</p>
+    <p *ngIf="order.delivery_type === 2">Deliver Type: Premium Delivery</p>
+    <p>Pickup Date:{{ order.order_date }}</p>
+    <p *ngIf="order.work_assigned">Work Assigned: Waiting to assign someone</p>
+    <p *ngIf="!order.work_assigned">Work Assigned: {{ order.work_assigned }}</p>
+    <p *ngIf="order.item_status">Item Status: Delivered</p>
+    <p *ngIf="!order.item_status">Item Status: Not Delivered</p>
+    <div class="order-image">
+      <p>Item Image:</p>
+      <img [src]="order.imagePath" [alt]="order.item_name" />
+    </div>
+    <mat-action-row
+      *ngIf="userIsAuthenticated && userId === order.order_assigner"
+    >
+      <button mat-button color="warn" (click)="onDelete(order._id)">
+        DELETE
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-paginator
+  [length]="totalOrders"
+  [pageSize]="orderPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onPageChange($event)"
+  *ngIf="orders.length > 0"
+></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="orders.length <= 0 && !isLoading">
+  No posts added yet!
+</p>

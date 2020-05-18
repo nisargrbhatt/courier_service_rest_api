@@ -1,0 +1,88 @@
+<mat-card title="Sign Up Form">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSignup(signupForm)" *ngIf="!isLoading" #signupForm="ngForm">
+    <mat-form-field>
+      <input
+        matInput
+        name="full_name"
+        type="text"
+        placeholder="Full Name"
+        [ngModel]
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bithdate</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [ngModel]
+        name="birthdate"
+        required
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Gender</mat-label>
+      <mat-select [ngModel] name="gender" required>
+        <mat-option *ngFor="let item of Gender" [value]="item.value">
+          {{ item.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="address"
+        type="text"
+        placeholder="Address"
+        [ngModel]
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="contact_no"
+        type="number"
+        placeholder="Contact No:"
+        [ngModel]
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="email"
+        type="email"
+        placeholder="E-mail"
+        [ngModel]
+        #emailInput="ngModel"
+        required
+        email
+      />
+      <mat-error *ngIf="emailInput.invalid"
+        >Please enter a valid email.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        type="password"
+        name="password"
+        [ngModel]
+        matInput
+        placeholder="Password"
+        #passwordInput="ngModel"
+        required
+      />
+      <mat-error *ngIf="passwordInput.invalid"
+        >Please enter a valid password.</mat-error
+      >
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">
+      Sign Up
+    </button>
+  </form>
+</mat-card>

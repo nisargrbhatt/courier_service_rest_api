@@ -1,0 +1,69 @@
+<mat-card title="Sign Up Form">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form [formGroup]="form" (submit)="onOrder()" *ngIf="!isLoading">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="Item Name"
+        formControlName="item_name"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="item_weight"
+        type="number"
+        placeholder="Item Weight(in kg)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="pickup_location"
+        type="text"
+        placeholder="Pickup Address"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="drop_location"
+        type="text"
+        placeholder="Drop Location"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Deliver Type</mat-label>
+      <mat-select formControlName="delivery_type">
+        <mat-option *ngFor="let item of deliveryPicker" [value]="item.value">
+          {{ item.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Pickup Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="order_date" />
+
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div>
+      <label>Item Image:</label>
+      <button mat-stroked-button type="button" (click)="filePicker.click()">
+        Pick Image
+      </button>
+      <input type="file" #filePicker (change)="onImagePicked($event)" />
+    </div>
+    <div
+      class="image-preview"
+      *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid"
+    >
+      <img [src]="imagePreview" [alt]="form.value.item_name" />
+    </div>
+    <br />
+    <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">
+      Add Order
+    </button>
+  </form>
+</mat-card>
